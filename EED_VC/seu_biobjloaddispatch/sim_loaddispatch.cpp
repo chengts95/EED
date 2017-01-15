@@ -1,0 +1,32 @@
+
+#include "sim_loaddispatch.h"
+
+void sim_dispatch(nsga2cfg ga,
+              int unitnum,unitload *uload,double totalload,
+              double **x,double **obj,int &feasible_popsize,
+              loadv &bestC,loadv &bestE,loadv &best)
+{
+       double *min_x,*max_x;
+
+       min_x = new double[ga.nreal];
+       max_x = new double[ga.nreal];
+
+       for (int i=0; i<unitnum; i++)
+       {
+         min_x[i]=uload[i].min;
+         max_x[i]=uload[i].max;
+       }
+
+	initloadmodel(unitnum,uload,totalload);
+
+	sim_ga_paretoset(ga,min_x,max_x,x,obj,feasible_popsize,problem);
+
+	SingleBestSolutionInParetoSet(ga,x,obj,feasible_popsize,bestC,bestE);
+    BestCompromiseSolutionInParetoSet(ga,x,obj,feasible_popsize,best);
+
+    delete[] min_x;
+    delete[] max_x;
+}
+
+
+ 

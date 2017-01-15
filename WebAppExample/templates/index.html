@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+   <meta charset="utf-8">
+   <title>电力负荷优化分配</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="">
+   <meta name="author" content="">
+
+    <link rel="shortcut icon" href="/static/img/xb.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/flot.css" rel="stylesheet">
+    <link href="/static/css/biobjloaddispatch.css" rel="stylesheet">
+      	
+    <script src="/static/js/jquery.min.js" type="text/javascript"></script>  
+    <script src="/static/js/jquery.js" type="text/javascript"></script>  
+    <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>    
+    <script src="/static/js/jquery.flot.js" type="text/javascript"></script>   
+    
+      <script>
+   
+  	  $(document).ready(function()
+      {
+  	     
+    	 unitnum=6
+         
+    	 $('#runajax').click(function(event){
+
+            var valueForInput1 = $("#input1").val();
+   
+            var data = 
+               {
+                  key1: valueForInput1, 
+               };
+
+               var dataToSend = JSON.stringify(data);
+
+            $.ajax(
+            {
+               url: '/dispatch/',
+               type: 'POST',
+               data: dataToSend,
+               
+               success: function(jsonResponse)
+               {
+                  var objresponse = JSON.parse(jsonResponse);
+     
+                  $("#responsefield_best_cobj").text(objresponse['best_cobj'].toFixed(3));
+                  $("#responsefield_best_eobj").text(objresponse['best_eobj'].toFixed(3)); 
+                  for (var i = 1; i <=unitnum; i++)
+                  {
+                	  $("#responsefield_best_load"+i.toString()).text(objresponse['best_load'][i-1].toFixed(2));
+                  }
+                  
+                  $("#responsefield_bestc_cobj").text(objresponse['bestc_cobj'].toFixed(3));
+                  $("#responsefield_bestc_eobj").text(objresponse['bestc_eobj'].toFixed(3));
+                  for (var i = 1; i <=unitnum; i++)
+                  {
+                    $("#responsefield_bestc_load"+i.toString()).text(objresponse['bestc_load'][i-1].toFixed(2));
+                  }
+                   
+                  $("#responsefield_beste_cobj").text(objresponse['beste_cobj'].toFixed(3));
+                  $("#responsefield_beste_eobj").text(objresponse['beste_eobj'].toFixed(3));
+                  for (var i = 1; i <=unitnum; i++)
+                  {
+                    $("#responsefield_beste_load"+i.toString()).text(objresponse['beste_load'][i-1].toFixed(2));
+                  }
+               
+                  var d1 = [];
+              	  var d2 = [];
+             	  for (var i = 1; i <=100; i++)
+                  {
+                	  c=objresponse['bestcpop'][i-1];
+                	  e=objresponse['bestepop'][i-1];
+                	  d1.push([c,e]);
+                  }
+                  
+                  d2.push([objresponse['best_cobj'],objresponse['best_eobj']]);
+                 
+              		 $.plot("#flotPlaceholder", [ {data: d1,points: { show: true,radius: 2}},
+                                                 {data: d2,points: { show: true,radius: 6}}
+                                               ]);
+               },
+               error: function()
+               {
+                  $("#responsefield").text("Error to load api");
+                  
+               }
+            });
+           event.preventDefault();
+         });   
+      }); 
+     </script>
+
+  </head>
+
+<body id="bootstrap-js">
+<div class="wrapper">
+      <div class="navbar">
+         <div class="navbar-inner">
+            <div class="container" style="width: auto;">
+               <h3 class="brand">环境 - 经济双目标电力负荷优化分配 </h3>
+               <div class="nav-collapse">
+                  <ul class="nav pull-right">
+                     <li class="active"><a href="/unitchar/">机组特性</a></li>
+                     <li class="active"><a href="/dispatchcfg/">算法参数</a></li>
+                     <li class="active"><a href="/realtime/">在线优化</a></li>
+                     <li class="active"><a href="/about/">软件简介</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="container">
+          <div class="span5 pull-right">
+                 <form class="well form-inline" style="background-color: AntiqueWhite">
+	               <label class="control-label" for="input1">请输入待分配电力负荷(MW)</label>
+	               <input id="input1" type="text" class="input" value=283.4 placeholder="">
+	               <button id="runajax" class="btn btn-primary">优化分配</button>
+	            </form>
+	      </div>
+          
+          <div id="responsefield">
+		          <table class="table table-striped">
+			          <thead>
+			          <tr>
+			            <th>项目</th>
+			            <th>成本($/h)</th>
+			            <th>排放（t/h)</th>
+			            <th>1号机组</th>
+			            <th>2号机组</th>
+			            <th>3号机组</th>
+			            <th>4号机组</th>
+			            <th>5号机组</th>
+			            <th>6号机组</th>
+			          </tr>
+			        </thead>
+			        <tbody>
+			          <tr>
+			            <td>折衷解</td>
+			            <td><span id="responsefield_best_cobj"></span> </td>
+			            <td><span id="responsefield_best_eobj"></span></td>
+			            <td><span id="responsefield_best_load1"></span></td>
+			            <td><span id="responsefield_best_load2"></span></td>
+			            <td><span id="responsefield_best_load3"></span></td>
+			            <td><span id="responsefield_best_load4"></span></td>
+			            <td><span id="responsefield_best_load5"></span></td>
+			            <td><span id="responsefield_best_load6"></span></td>
+			          </tr>
+			          <tr>
+			            <td>经济最优</td>
+			            <td><span id="responsefield_bestc_cobj"></span></td>
+			            <td><span id="responsefield_bestc_eobj"></span></td>
+			            <td><span id="responsefield_bestc_load1"></span></td>
+			            <td><span id="responsefield_bestc_load2"></span></td>
+			            <td><span id="responsefield_bestc_load3"></span></td>
+			            <td><span id="responsefield_bestc_load4"></span></td>
+			            <td><span id="responsefield_bestc_load5"></span></td>
+			            <td><span id="responsefield_bestc_load6"></span></td>
+			          </tr>
+			          <tr>
+			            <td>环境最佳</td>
+			            <td><span id="responsefield_beste_cobj"></span></td>
+			            <td><span id="responsefield_beste_eobj"></span></td>
+			            <td><span id="responsefield_beste_load1"></span></td>
+			            <td><span id="responsefield_beste_load2"></span></td>
+			            <td><span id="responsefield_beste_load3"></span></td>
+			            <td><span id="responsefield_beste_load4"></span></td>
+			            <td><span id="responsefield_beste_load5"></span></td>
+			            <td><span id="responsefield_beste_load6"></span></td>
+			          </tr>
+			        </tbody>
+		      </table>
+		      <div class="hero-unit span5" style="filter:alpha(Opacity=60);-moz-opacity:0.6;opacity: 0.6 ">
+				<h3>算法参数:</h3>
+				 <p>查看和修改机组特性和算法数据，请点击 ：</p>
+				 <a href="/unitchar/">1)机组特性方程系数  </a>
+				 <a class="offset1" href="/dispatchcfg/">2)多目标优化算法参数</a>
+			  </div>
+		      <div class="demo-container pull-right">
+		     	<div id="flotPlaceholder" class="demo-placeholder "></div>
+		      </div>
+		   </div>
+		 </div>
+      </div>
+ <footer>
+      <div class="container">
+        <p class="muted credit pull-right">程天石  吕家乐 <a href="http://www.seu.edu.cn"> 东南大学 </a> <a href="http://ee.seu.edu.cn/">电气工程学院</a> 2014</p>
+      </div>
+</footer>
+</body>
+</html>
+
+
+
+
+

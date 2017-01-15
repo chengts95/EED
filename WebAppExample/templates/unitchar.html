@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>环境-经济双目标电力负荷优化分配 -机组运行特性</title>
+	 <link rel="shortcut icon" href="/static/img/xb.ico">
+ 	  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+     <link href="/static/css/biobjloaddispatch.css" rel="stylesheet">
+   
+      <script src="/static/js/jquery.min.js" type="text/javascript"></script>  
+      <script src="/static/js/bootstrap.min.js" type="text/javascript"></script>    
+  
+   	<script type="text/javascript">
+      
+	  $(document).ready(function()
+    {
+  	// initialize the viewer
+  	//var d3 = [];
+		//for (var i = 0; i < 14; i += 0.5) {
+		////	d3.push([i, Math.cos(i)]);
+		//} 
+      
+		//$.plot("#flotPlaceholder", [ {data: d3,points: { show: true }}]);
+      
+        
+  	 $('#unitcharajax').click(function(event){
+
+          var valueForpopsize = $("#input_popsize").val();
+ 
+          var data = 
+             {
+        		  popsize: valueForpopsize, 
+             };
+
+             var dataToSend = JSON.stringify(data);
+
+          $.ajax(
+          {
+             url: '/unitchar/',
+             type: 'POST',
+             data: dataToSend,
+             
+             success: function(jsonResponse)
+             {
+                 $("#responsefield").text("OK");
+                        
+             },
+             error: function()
+             {
+                $("#responsefield").text("Error to load api");
+                
+             }
+          });
+         event.preventDefault();
+       });   
+    
+     
+   </script>
+
+</head>
+<body id="bootstrap-js">
+<div class="wrapper">
+      <div class="navbar">
+         <div class="navbar-inner">
+            <div class="container" style="width: auto;">
+               <h3 class="brand">环境-经济双目标电力负荷优化分配 -机组运行特性</h3>
+               <div class="nav-collapse">
+                  <ul class="nav pull-right">
+                     <li class="active"><a href="/">返回首页</a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="container">
+        
+	    <form class="well form-inline"  >
+ 	        
+		          <table class="table table-striped">
+			          <thead>
+			          <tr>
+			            <th>机组</th>
+			            <th>1号机组</th>
+			            <th>2号机组</th>
+			            <th>3号机组</th>
+			            <th>4号机组</th>
+			            <th>5号机组</th>
+			            <th>6号机组</th>
+			          </tr>
+			        </thead>
+			        <tbody>
+			          <tr>
+			            <td>煤耗A</td>
+			            <td><input  id="input_c00" type="text"  class="input input-mysize" value={{c00}}></input></td>
+			            <td><input  id="input_c10" type="text"  class="input input-mysize" value={{c10}}></input></td>
+			            <td><input  id="input_c20" type="text" class="input input-mysize"  value={{c20}}></input></td>
+			            <td><input  id="input_c30" type="text" class="input input-mysize"  value={{c30}}></input></td>
+			            <td><input  id="input_c40" type="text" class="input input-mysize"  value={{c40}}></input></td>
+			            <td><input  id="input_c50" type="text" class="input input-mysize"  value={{c50}}></input></td>
+			          </tr>
+			          <tr>
+			            <td>煤耗B</td>
+			            <td><input  id="input_c01" type="text" class="input input-mysize" value={{c01}}></input></td>
+			            <td><input  id="input_c11" type="text" class="input input-mysize" value={{c11}}></input></td>
+			            <td><input  id="input_c21" type="text" class="input input-mysize" value={{c21}}></input></td>
+			            <td><input  id="input_c31" type="text" class="input input-mysize" value={{c31}}></input></td>
+			            <td><input  id="input_c41" type="text" class="input input-mysize" value={{c41}}></input></td>
+			            <td><input  id="input_c51" type="text" class="input input-mysize" value={{c51}}></input></td>
+			          </tr>
+			          <tr>
+			            <td>煤耗C</td> 
+			            <td><input  id="input_c02" type="text" class="input  input-mysize" value={{c02}}></input></td>
+			            <td><input  id="input_c12" type="text" class="input  input-mysize" value={{c12}}></input></td>
+			            <td><input  id="input_c22" type="text" class="input input-mysize" value={{c22}}></input></td>
+			            <td><input  id="input_c32" type="text" class="input  input-mysize" value={{c32}}></input></td>
+			            <td><input  id="input_c42" type="text" class="input input-mysize" value={{c42}}></input></td>
+			            <td><input  id="input_c52" type="text" class="input input-mysize" value={{c52}}></input></td>
+			          </tr>
+			      <tr>
+			            <td>排放1</td>
+			            <td><input  id="input_e00" type="text" class="input input-mysize" value={{e00}}></input></td>
+			            <td><input  id="input_e10" type="text" class="input input-mysize" value={{e10}}></input></td>
+			            <td><input  id="input_e20" type="text" class="input input-mysize" value={{e20}}></input></td>
+			            <td><input  id="input_e30" type="text" class="input input-mysize" value={{e30}}></input></td>
+			            <td><input  id="input_e40" type="text" class="input input-mysize" value={{e40}}></input></td>
+			            <td><input  id="input_e50" type="text" class="input input-mysize" value={{e50}}></input></td>
+			          </tr>
+			          <tr>
+			            <td>排放2</td>
+			            <td><input  id="input_e01" type="text" class="input input-mysize" value={{e01}}></input></td>
+			            <td><input  id="input_e11" type="text" class="input input-mysize" value={{e11}}></input></td>
+			            <td><input  id="input_e21" type="text" class="input input-mysize" value={{e21}}></input></td>
+			            <td><input  id="input_e31" type="text" class="input input-mysize" value={{e31}}></input></td>
+			            <td><input  id="input_e41" type="text" class="input input-mysize" value={{e41}}></input></td>
+			            <td><input  id="input_e51" type="text" class="input input-mysize" value={{e51}}></input></td>
+			          </tr>
+			          <tr>
+			            <td>排放3</td>
+			            <td><input  id="input_e02" type="text" class="input input-mysize" value={{e02}}></input></td>
+			            <td><input  id="input_e12" type="text" class="input input-mysize" value={{e12}}></input></td>
+			            <td><input  id="input_e22" type="text" class="input input-mysize" value={{e22}}></input></td>
+			            <td><input  id="input_e32" type="text" class="input input-mysize" value={{e32}}></input></td>
+			            <td><input  id="input_e42" type="text" class="input input-mysize" value={{e42}}></input></td>
+			            <td><input  id="input_e52" type="text" class="input input-mysize" value={{e52}}></input></td>
+			          </tr>
+			          <tr>
+			            <td>排放4</td>
+			            <td><input  id="input_e02" type="text" class="input input-mysize" value={{e02}}></input></td>
+			            <td><input  id="input_e12" type="text" class="input input-mysize" value={{e12}}></input></td>
+			            <td><input  id="input_e22" type="text" class="input input-mysize" value={{e22}}></input></td>
+			            <td><input  id="input_e32" type="text" class="input input-mysize" value={{e32}}></input></td>
+			            <td><input  id="input_e42" type="text" class="input input-mysize" value={{e42}}></input></td>
+			            <td><input  id="input_e52" type="text" class="input input-mysize" value={{e52}}></input></td>
+			          </tr>
+			         <tr>
+			             <td>排放5</td>
+			            <td><input  id="input_e02" type="text" class="input input-mysize" value={{e02}}></input></td>
+			            <td><input  id="input_e12" type="text" class="input input-mysize" value={{e12}}></input></td>
+			            <td><input  id="input_e22" type="text" class="input input-mysize" value={{e22}}></input></td>
+			            <td><input  id="input_e32" type="text" class="input input-mysize" value={{e32}}></input></td>
+			            <td><input  id="input_e42" type="text" class="input input-mysize" value={{e42}}></input></td>
+			            <td><input  id="input_e52" type="text" class="input input-mysize" value={{e52}}></input></td>
+			          </tr>
+			  <tr>
+			     <td></td> 
+			     <td></td>
+			     <td></td>
+			     <td></td>
+			     <td></td>
+			     <td></td>
+			     <td> <button id="unitcharajax" class="btn btn-primary">提交数据</button></td>
+			  </tr>
+			
+			        </tbody>
+		      </table>
+ </form>
+		 </div>
+      </div>
+ <footer>
+      <div class="container">
+        <p class="muted credit pull-right">程天石  吕家乐 <a href="http://www.seu.edu.cn"> 东南大学 </a> <a href="http://ee.seu.edu.cn/">电气工程学院</a> 2014</p>
+      </div>
+</footer>
+</body>
+</html>

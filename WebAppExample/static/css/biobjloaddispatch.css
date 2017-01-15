@@ -1,0 +1,42 @@
+      html {
+         height: 100%;font: normal 13px  "HelveticaNeue-Light", Helvetica, Georgia, sans-serif; 
+      }
+
+      body{
+         height: 100%;font: normal 13px  "HelveticaNeue-Light", Helvetica, Georgia, sans-serif;           
+         background: url(/static/img/background.jpg);
+         background-repeat:no-repeat;
+         background-size:cover;
+      }
+       
+       footer {
+            color: #666;
+            background: #222;
+            padding: 8px 0 8px 0;
+            border-top: 1px solid #000;
+        }
+        footer a {
+            color: #999;
+        }
+        footer a:hover {
+            color: #efefef;
+        }
+        
+         .wrapper {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            margin: 0 auto -40px;
+        }
+        .push {
+            height: 40px;
+        }
+        
+       /* not required for sticky footer; just pushes hero down a bit */
+        .wrapper > .container {
+            padding-top: 37px;
+        }
+       
+       .input-mysize { width:50px }
+     
+     .divcss5{ text-indent:35px}   

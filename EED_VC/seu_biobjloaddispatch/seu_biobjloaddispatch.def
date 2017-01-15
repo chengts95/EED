@@ -1,0 +1,4 @@
+LIBRARY   seu_biobjloaddispatch
+EXPORTS
+   seu_biobjloaddispatch  @1
+   biobjloaddispatch  @2

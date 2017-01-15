@@ -1,0 +1,5 @@
+LIBRARY   seu_nsga2
+EXPORTS
+   ga_paretoset  @1
+   ga_deallocate  @2
+   sim_ga_paretoset  @3
